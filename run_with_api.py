@@ -13,16 +13,10 @@ import random as rm
 
 from utils import get_prompt, get_keys, load_data, save_data
 
-# 无问芯穹
-infini_client = OpenAI(
-    base_url='https://cloud.infini-ai.com/maas/v1/',
-    api_key='sk-dartcbxaqxmn3wfr',
-)
-
-# ModelScope
-ms_client = OpenAI(
-    base_url='https://api-inference.modelscope.cn/v1/',
-    api_key='c5fb0e58-8434-454f-9f51-6140e80e80a6',  # ModelScope Token
+# OpenAI Client
+client = OpenAI(
+    base_url='<base_url_here>',
+    api_key='<your_api_key_here>',
 )
 
 
@@ -135,22 +129,12 @@ if __name__ == '__main__':
 
     args = argparse.ArgumentParser()
     args.add_argument('--model', type=str, default='qwen2')
-    args.add_argument('--client', type=str, default='ollama', choices=['ollama', 'infini', 'ms'])
+    args.add_argument('--client', type=str, default='ollama', choices=['ollama', 'openai'])
     args.add_argument('--reason', action='store_true', help='Use reason model.')
     args.add_argument('--dataset', type=str, default='samsum', choices=eval_datasets.keys(), help='Dataset to evaluate.')
     args = args.parse_args()
     print(args)
 
-    # for eval_file in eval_datasets:
-    #     save_file = f'results/{eval_file.split("/")[0]}.jsonl'
-    #     try:
-    #         saved_models = [s['model'] for s in [json.loads(line) for line in open(save_file, 'r')]]
-    #         if args.model in saved_models:
-    #             print(f'In {save_file}, {args.model} exists, skip')
-    #             continue
-    #     except FileNotFoundError:
-    #         print(f'{save_file} not found, start to eval')
-    #
     eval_file = eval_datasets[args.dataset]
     ref_key, dial_key = get_keys(eval_file)
 
@@ -165,7 +149,7 @@ if __name__ == '__main__':
         )
     else:
         eval_with_openai(
-            infini_client if args.client == 'infini' else ms_client if args.client == 'ms' else None,
+            client,
             eval_file,
             model_id=args.model,
             ref_key=ref_key,

@@ -26,7 +26,7 @@ model_dir = '<your_model_directory>'  # 替换为自己的模型存放路径
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def eval_with_batch_inference(file_path, src_key='summary', tag_key='dialogue', model_id='deepseek-r1', reason=False,
+def eval_with_batch_inference(file_path, src_key='summary', tar_key='dialogue', model_id='deepseek-r1', reason=False,
                               batch_size=4, max_new_tokens=256):
     lines = load_data(file_path)
 
@@ -54,12 +54,12 @@ def eval_with_batch_inference(file_path, src_key='summary', tag_key='dialogue', 
         span = range(i, min(i + batch_size, len(lines)))
         # references = [lines[j][src_key] for j in span]
         # 过滤掉太长的文本（不做截断，直接让过长的文本不参与计算评价结果）
-        valid_span = [j for j in span if type(lines[j][tag_key]) is str]  # and len(lines[j][tag_key].split(' ')) <= 2000
+        valid_span = [j for j in span if type(lines[j][tar_key]) is str]  # and len(lines[j][tar_key].split(' ')) <= 2000
         references = [lines[j][src_key] for j in valid_span]
         input_texts = [
             tokenizer.apply_chat_template([{
                 'role': 'user',
-                'content': lines[j][tag_key] + '\n\n' + prompt
+                'content': lines[j][tar_key] + '\n\n' + prompt
             }],
                 add_generation_prompt=True,
                 tokenize=False
@@ -157,7 +157,7 @@ if __name__ == '__main__':
 
     for eval_file in eval_datasets:
         # 获取源序列、目标序列所对应的键名
-        src_key, tag_key = get_keys(eval_file)
+        src_key, tar_key = get_keys(eval_file)
         save_file = f'results/{eval_file.split("/")[0]}.jsonl'
         try:
             saved_models = [s['model'] for s in [json.loads(line) for line in open(save_file, 'r')]]
@@ -171,7 +171,7 @@ if __name__ == '__main__':
         eval_with_batch_inference(
             eval_file,
             src_key=src_key,
-            tag_key=tag_key,
+            tar_key=tar_key,
             model_id=args.model,
             batch_size=args.batch_size,
             max_new_tokens=args.max_new_tokens,
