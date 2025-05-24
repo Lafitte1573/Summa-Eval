@@ -151,7 +151,9 @@ python run.py --model <your_model_name> --batch_size <batch_size> --dataset <dat
 
 ### 引用
 
-欢迎您勘误本项目的代码以及进行二次开发。如果您再工作中参考了项目提供的评价结果，请按照以下格式进行引用：
+欢迎您勘误本项目的代码以及进行二次开发
+
+如果您在工作中参考了项目提供的评价结果，请按照以下格式进行引用：
 
 ```bibtex
 @misc{summa_eval,
