@@ -158,7 +158,7 @@ python run.py --model <your_model_name> --batch_size <batch_size> --dataset <dat
 
 ```bibtex
 @misc{summa_eval,
-  author = {Jiaxin Duan},
+  author = {Lafitte1573},
   title = {Summa-Eval: An Open Package for the Evaluation of LLM Summarization},
   year = {2025},
   publisher = {GitHub},
