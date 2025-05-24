@@ -57,8 +57,9 @@ python run_with_api.py --client openai --model <your_model_name> --dataset <data
 
 ### 基于原生 Pytorch 的摘要生成与评价
 
-基于 Ollama 的本地部署方式通常适合参数量较大的开源模型（如 Qwen 系列 32/72B 模型），而基于 OpenAI API 的在线调用更加适合商用非开源模型和超大参数量的 MoE 模型（如 GPT-4o、Deepseek 等）。
-然而 Ollama 无法做到批量推理，API 调用方式通常需要按 tokens 用量付费。
+本项目推荐采用基于 Ollama 的本地部署方式运行参数量较大的开源模型（如 Qwen 系列 32/72B 模型）、采用基于 OpenAI API 的方式直接调用商用非开源模型和超大参数量的 MoE 模型（如 GPT-4o、Deepseek 等）
+
+需要说明的是，Ollama 无法做到批量推理，API 调用方式通常也需要按 tokens 用量付费。
 因此，对于参数量在 0.5B~9B 的模型，推荐在单卡 GPU 上直接采用 Pytorch 运行模型，以节省开支并达到加速效果。命令如下：
 
 ```bash
@@ -145,7 +146,7 @@ python run.py --model <your_model_name> --batch_size <batch_size> --dataset <dat
 
 1. 添加更多评价指标（如 `BERTScore`，`BARTScore`，`GPT` 评价等），而不仅仅是 `ROUGE` 分数；
 2. 添加更多评价数据集，并且不局限于文本摘要任务；
-3. 在 `run.py` 中添加多卡分布式推理，以实现以原生 Pytorch 方式运行大参数量 LLM（如 Qwen2.5-72B、Llama3-70B 等）。
+3. 在 `run.py` 中添加多卡分布式推理，以实现以原生 Pytorch 方式运行大参数量 LLM（如 Qwen2.5-72B、Llama3-70B 等）
 
 ----
 
