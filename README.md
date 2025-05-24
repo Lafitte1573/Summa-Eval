@@ -67,8 +67,8 @@ python run.py --model <your_model_name> --batch_size <batch_size> --dataset <dat
 ```
 
 > 请注意：
-> 1.您需要在 `run.py` 脚本的第 24 行指明模型的存放路径，并且确保 `<your_model_name>` 与本地模型存放路径的命名规范一致；
-> 2.您可以通过设置恰当的 `<batch_size>` 来控制模型推理的并发数量，从而提高模型推理速度；
+> 1. 您需要在 `run.py` 脚本的第 24 行指明模型的存放路径，并且确保 `<your_model_name>` 与本地模型存放路径的命名规范一致；
+> 2. 您可以通过设置恰当的 `<batch_size>` 来控制模型推理的并发数量，从而提高模型推理速度；
 
 ----
 
